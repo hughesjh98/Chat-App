@@ -30,6 +30,7 @@ const Start = ({ navigation }) => {
 
             <Text style={styles.title}>Chatter</Text>
             {/* login wrapper containing TextInput and colorSelect */}
+
             <View style={styles.loginWrapper}>
                 <TextInput
                     style={styles.TextInput}
@@ -37,10 +38,13 @@ const Start = ({ navigation }) => {
                     onChangeText={setName}
                     placeholder='your name'
                 />
+                {/* users can select the color they want for their chat */}
 
                 <View style={styles.colorSelect}>
                     <Text>choose your background color:</Text>
                     <View style={styles.colorSelect__dotsWrapper}>
+                        {/* buttons for changing the backgorund color */}
+
                         <TouchableOpacity
                             style={[styles.colorSelect__dot, mint]}
                             onPress={() => setColor('#36FFAD')}
@@ -63,7 +67,7 @@ const Start = ({ navigation }) => {
                         />
                     </View>
                 </View>
-
+                    {/* navigation button to the chat screen with their name and picked color */}
                 <TouchableOpacity
                     style={styles.Button}
                     onPress={() => navigation.navigate('Chat', { name: name, color: color })}
