@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, } from "react-native";
-
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Alert } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
+    const auth = getAuth();
     const [name, setName] = useState('');
     const [color, setColor] = useState('');
-    const [isActive, setIsActive] = useState(false);
 
     const bgColors = {
         mint: { backgroundColor: "#36FFAD" },
@@ -13,11 +13,17 @@ const Start = ({ navigation }) => {
         purple: { backgroundColor: "#9871EB" },
         pink: { backgroundColor: "#FD77FF" },
     };
-    const { mint, blue, purple, pink } = bgColors
+    const { mint, blue, purple, pink } = bgColors;
 
-    const handlePress = () => {
-        setIsActive(current => !current)
-    };
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then(result => {
+                navigation.navigate("Chat", { userID: result.user.uid, name: name, color: color });
+                Alert.alert('signed in successfully!')
+            }).catch((error) => {
+                Alert.alert('unable to sign in, please try again.')
+            })
+    }
 
     return (
 
@@ -33,6 +39,10 @@ const Start = ({ navigation }) => {
 
             <View style={styles.loginWrapper}>
                 <TextInput
+                    accessible={true}
+                    accessibilityLabel="enter your name"
+                    accessibilityHint="lets you enter your name into the text field"
+                    accessibilityRole="text"
                     style={styles.TextInput}
                     value={name}
                     onChangeText={setName}
@@ -46,31 +56,51 @@ const Start = ({ navigation }) => {
                         {/* buttons for changing the backgorund color */}
 
                         <TouchableOpacity
+                            accessible={true}
+                            accessibilityLabel="change the color to mint"
+                            accessibilityHint="select a color of the chat background "
+                            accessibilityRole="button"
                             style={[styles.colorSelect__dot, mint]}
                             onPress={() => setColor('#36FFAD')}
                         />
 
                         <TouchableOpacity
+                            accessible={true}
+                            accessibilityLabel="change the color to mint"
+                            accessibilityHint="select a color of the chat background "
+                            accessibilityRole="button"
                             style={[styles.colorSelect__dot, blue]}
                             onPress={() => setColor('#65CEFF')}
 
                         />
 
                         <TouchableOpacity
+                            accessible={true}
+                            accessibilityLabel="change the color to mint"
+                            accessibilityHint="select a color of the chat background "
+                            accessibilityRole="button"
                             style={[styles.colorSelect__dot, purple]}
                             onPress={() => setColor('#9871EB')}
                         />
 
                         <TouchableOpacity
+                            accessible={true}
+                            accessibilityLabel="change the color to mint"
+                            accessibilityHint="select a color of the chat background "
+                            accessibilityRole="button"
                             style={[styles.colorSelect__dot, pink]}
                             onPress={() => setColor('#FD77FF')}
                         />
                     </View>
                 </View>
-                    {/* navigation button to the chat screen with their name and picked color */}
+                {/* navigation button to the chat screen with their name and picked color */}
                 <TouchableOpacity
+                    accessible={true}
+                    accessibilityLabel="go to the chat screen"
+                    accessibilityHint=" go to the chat"
+                    accessibilityRole="button"
                     style={styles.Button}
-                    onPress={() => navigation.navigate('Chat', { name: name, color: color })}
+                    onPress={signInUser}
                 >
                     <Text style={styles.ButtonText}> go to Chat</Text>
                 </TouchableOpacity>
