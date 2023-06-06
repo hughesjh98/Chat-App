@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from "react-native"
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 
 
-const Chat = ({ route, navigation }) => {
-
+const Chat = ({ db, route, navigation }) => {
+    //store the messages and pass the name, color, userID props
     const [messages, setMessages] = useState([]);
-    const { name, color } = route.params;
+    const { name, color, userID } = route.params;
 
     const onSend = (newMessages) => {
-
-        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
-
+        addDoc(collection(db, "messages"), newMessages[0])
     }
-
+//return text bubbles aswell as bubble styling
     const renderBubble = (props) => {
         return <Bubble
             {...props}
@@ -24,39 +23,39 @@ const Chat = ({ route, navigation }) => {
                 },
 
                 left: {
-                    backgroundColor:'#FFF'
+                    backgroundColor: '#FFF'
                 }
             }}
-
-
-
         />
     }
 
     useEffect(() => {
-        navigation.setOptions({ title: name }),
-            setMessages([
-                {
-                    _id: 1,
-                    text: 'hello developer',
-                    createdAt: new Date(),
+        //add the users name to the top of the chat 
+        navigation.setOptions({ title: name });
 
-                    user: {
-                        _id: 2,
-                        name: 'react native',
-                        avatar: "https://placeimg.com/140/140/any",
-                    },
-                },
-                {
-                    _id: 2,
-                    text: 'this is a system message',
-                    createdAt: new Date(),
-                    system: true,
-                },
-            ]);
+        //query the database to order by date and add new messages 
+        const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+
+        const unsubMessages = onSnapshot(q, (documentSnapshot) => {
+            let newMessages = [];
+            documentSnapshot.forEach(doc => {
+                newMessages.push({
+                    id: doc.id,
+                    ...doc.data(),
+                    createdAt: new Date(doc.data().createdAt.toMillis())
+                })
+            });
+            setMessages(newMessages);
+        });
+        return () => {
+            if (unsubMessages) {
+                unsubMessages();
+            }
+        }
     }, []);
 
     return (
+
         <View style={[styles.container, { backgroundColor: color }]}>
             <Text> welcome to Chat</Text>
             <GiftedChat
@@ -64,7 +63,8 @@ const Chat = ({ route, navigation }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: 1
+                    _id: userID,
+                    name: name,
                 }}
             />
             {
