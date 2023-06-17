@@ -18,7 +18,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 
 
-
 const App = () => {
   const firebaseConfig = {
     apiKey: "AIzaSyCVvn6-bDvXGE99-idtzqVItQ4YTLnQLTI",
