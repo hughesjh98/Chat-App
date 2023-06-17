@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 const Stack = createNativeStackNavigator();
 
 //firebase db elements 
+import {getStorage} from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 
@@ -35,6 +36,8 @@ const App = () => {
 
   // establish a varable to check if the internet is connected.
   const connectionStatus = useNetInfo();
+
+  const storage = getStorage();
 
   //use effect to change the status of the db when online and offline.
   useEffect(() => {
@@ -61,7 +64,12 @@ const App = () => {
           name='Chat'
         >
           {
-            props => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />
+            props => 
+            <Chat 
+            isConnected={connectionStatus.isConnected} 
+            db={db}
+            storage={storage}
+            {...props} />
           }
         </Stack.Screen>
       </Stack.Navigator>
