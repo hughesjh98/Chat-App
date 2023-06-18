@@ -129,12 +129,13 @@ const styles = StyleSheet.create({
     loginWrapper: {
         flex: 1,
         backgroundColor: 'white',
-        height: '50%',
-        width: '90%',
+        height: '44%',
+        width: '88%',
         marginBottom: 35,
         alignItems: "center",
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
+
     TextInput: {
         width: '88%',
         padding: 15,
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 15
     },
+
     Button: {
         alignItems: 'center',
         justifyContent: 'space-evenly',
