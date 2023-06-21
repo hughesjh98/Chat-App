@@ -1,5 +1,5 @@
 //import screens 
-import Start from './components/Start';
+import Start from './components/start';
 import Chat from './components/Chat';
 
 //react/react-native elements 

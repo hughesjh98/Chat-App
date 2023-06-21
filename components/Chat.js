@@ -171,7 +171,7 @@ const Chat = ({ db, route, navigation, isConnected, storage }) => {
                 renderMessageAudio={renderAudioBubble}
                 user={{
                     _id: userID,
-                    name: name,
+                    name,
                 }}
             />
             {
