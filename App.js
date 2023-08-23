@@ -16,16 +16,17 @@ const Stack = createNativeStackNavigator();
 import {getStorage} from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
+import {API_KEY,AUTH_DOMAIN,PROJECT_ID,STORAGE_BUCKET,MESSAGING_SENDER_ID,APP_ID} from "@env"
 
 
 const App = () => {
   const firebaseConfig = {
-    apiKey: "AIzaSyCVvn6-bDvXGE99-idtzqVItQ4YTLnQLTI",
-    authDomain: "chat-app-b89eb.firebaseapp.com",
-    projectId: "chat-app-b89eb",
-    storageBucket: "chat-app-b89eb.appspot.com",
-    messagingSenderId: "656546460716",
-    appId: "1:656546460716:web:ac6e236c8999c0bba2cd89"
+    apiKey: API_KEY,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGING_SENDER_ID,
+    appId: APP_ID
   };
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
